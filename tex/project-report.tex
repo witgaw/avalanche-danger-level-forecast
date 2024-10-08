@@ -1,0 +1,56 @@
+\documentclass{article}
+
+\usepackage[preprint]{neurips_2023}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{hyperref}       % links
+
+
+\title{ML-based avalanche danger level forecasting. \\ Category: General Machine Learning}
+
+
+
+\author{
+  Witold Gawlikowicz (06932552) \\
+  \texttt{witold@stanford.edu}
+}
+
+
+\begin{document}
+
+
+\maketitle
+
+
+% \begin{abstract}
+% \end{abstract}
+
+\section*{CS229 Project Proposal}
+
+Every year around a 100 people loose their lives to avalanches \href{https://www.avalanches.org/fatalities/}{in Europe alone} despite the fact that avalanche danger level forecasts are widely available there. There are many mountainous regions around the world for which no such forecasts are published.
+Automating the process of avalanche forecast generation could have real impact on lives of many people around the world. \\
+This is of course an extremely ambitious goal, well beyond the scope of even most exhaustive coursework project. However, as I'm a keen alpinist and this topic if very close to my heart, I'd like to explore how much I can achieve towards this goal over the next 7 weeks and open-source it for the benefit of other researchers, as well as potentially continue working on it beyond CS229.
+
+	The main part of the avalanche danger level forecast for a given region is the overall avalanche danger level. It's expressed on a 5 point scale ranging from 1 (lowest) to 5 (highest).	\href{https://www.shastaavalanche.org/page/how-read-advisory}{Forecasts} for many regions often also contain: \href{https://avalanche.state.co.us/forecasts/tutorial/avalanche-problems}{the avalanche problems} (main characteristics of the snowpack which contribute to its instability and hence potential avalanche) and the aspect-elevation rose which shows more fine-grained avalanche danger levels broken down by slope's aspect and elevation. \\
+	My primary goal is to use the overall avalanche danger level forecast for the region as the dependent variable, however time- and data-permitting I'd also like to explore the possibility generating those more detailed elements of an avalanche forecast.	
+	
+	While I'm very enthusiastic about the topic, my biggest reservations were to do with the availability of data. However, my initial exploration has yielded some promising datasets. \href{https://www.sais.gov.uk/forecast-archive/}{Scottish Avalanche Information Service} provides historical forecasts for 5 regions since 1993 which we estimate to contain around 15,000 forecasts (typically the avalanche centres don't publish forecasts throughout the entire year). I have also been in touch with the \href{https://avalanche.org/national-avalanche-center/}{US Forest Service National Avalanche Center} and was told that it should be possible to obtain a dataset containing avalanche forecasts from the last 10 years from all of the avalanche centres in the US. \\
+	For the independent variables I'd like to use the weather variables typically associated with formation of avalanche problems (precipitation, temperature and wind activity across the season). I'd like to use the data source that provides historical and current results across the globe so that the methodology could be used to generate forecasts for regions which currently don't benefit from any official forecasts. I haven't yet decided which source to use, but from my initial search it seems like it should be possible to find a suitable one.
+	
+	I'd like to start with a simple softmax regression as a baseline and then compare its performance with more complex models. I'm also considering replicating some of the results presented in \href{https://nhess.copernicus.org/articles/22/2031/2022/}{P\'erez-Guill\'en et al. (2022)} using the datasets obtained for this project. I'll evaluate the model by calculating the difference between the predicted and actual avalanche danger level on a pre-assigned validation subset of the data. 
+	
+	% Leftovers:
+	%	As the number of people participating in outdoor recreation is \href{https://americancanoe.org/wp-content/uploads/2023/06/2023_Outdoor_Participation_Trends_Report.pdf}{steadily growing in the US}, and likely most of the other countries with access to mountains too, a
+	%	On a \href{https://avalanche.org/avalanche-encyclopedia/human/resources/north-american-public-avalanche-danger-scale/}{North American scale} the levels are: 1 - "low", 2 - "moderate", 3 - "considerable", 4 - "high", 5 - "extreme". 
+	%	The \href{https://www.avalanches.org/standards/avalanche-danger-scale/}{European scale} is similar with level 5 being described as "very high". Due to the ongoing efforts of the global avalanche forecasting scientific community the forecasting terminology have been getting more standardised across the world. However, it has to be noted that regional difference may still be present. 
+	%	aspect ("N", "NE", "E", "SE", "S", "SW", "W", "NW") and elevation (either absolute elevations applicable to a given region or relative elevations driven by tree cover: "below treeline", "near treeline", "above treeline").
+	
+\end{document}
+
