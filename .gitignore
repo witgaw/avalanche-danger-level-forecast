@@ -1,3 +1,4 @@
 *.gz
 *.pdf
 .DS_Store
+poetry.lock
