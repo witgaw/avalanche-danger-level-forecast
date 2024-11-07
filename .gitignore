@@ -7,3 +7,5 @@ poetry.lock
 *.fls
 *.log
 *.out
+tex/project-report.blg
+tex/project-report.bbl
