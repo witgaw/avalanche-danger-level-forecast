@@ -1,0 +1,45 @@
+\begin{table}[h]
+\caption{Summary of data cleansing actions on SAIS dataset}
+\label{tbl:sais_replacements_log}
+\begin{tabular}{ll}
+\toprule
+column name & action \\
+\midrule
+Forecast aval. hazard & 5661 missing values dropped \\
+Observed aval. hazard & 509 missing values dropped \\
+Air Temp & Change datatype to numeric \\
+Drift & Change datatype to numeric \\
+Summit Wind Dir & Set to 0 if "Summit Wind Speed" = 0 \\
+Wind Dir & Set to 0 if "Wind Dir" = 0 \\
+Summit Air Temp & Cross fill missing values with "Air Temp" \\
+Summit Wind Dir & Cross fill missing values with "Wind Dir" \\
+Summit Wind Speed & Cross fill missing values with "Wind Speed" \\
+Precip Code & 605 NAs filled with "0 - None" \\
+Foot Pen & 33 NAs filled with "0" \\
+Ski Pen & 3356 NAs filled with "0" \\
+Crystals & 1414 NAs filled with "0" \\
+Wind Speed & 18 NAs filled with "0" \\
+Summit Wind Speed & 18 NAs filled with "0" \\
+Total Snow Depth & 221 NAs filled with "0" \\
+Max Temp Grad & 557 NAs filled with "0" \\
+Max Hardness Grad & 482 NAs filled with "0" \\
+Snow Index & 1180 NAs filled with "0" \\
+Wetness & 997 NAs filled with "0" \\
+Precip Code & Split into "\detokenize{precip_code_numeric}" and "\detokenize{precip_code_desc}" \\
+All columns & Drop 1049 with missing values \\
+Wind Dir & Drop 15 negative values \\
+Wind Speed & Drop 2 negative values \\
+Cloud & Drop 1 negative values \\
+Total Snow Depth & Drop 36 negative values \\
+Foot Pen & Drop 2 negative values \\
+Ski Pen & Drop 4 negative values \\
+Summit Wind Dir & Drop 184 negative values \\
+Summit Wind Speed & Drop 5 negative values \\
+Snow Index & Drop 64 negative values \\
+Insolation & Drop 2 negative values \\
+Crystals & Drop 77 negative values \\
+No Settle & Drop 4 negative values \\
+Wetness & Drop 7 negative values \\
+\bottomrule
+\end{tabular}
+\end{table}

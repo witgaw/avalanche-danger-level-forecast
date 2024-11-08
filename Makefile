@@ -15,12 +15,12 @@ conda-export:
 	@poetry run poetry2conda pyproject.toml  environment.yaml
 	@echo
 
+# Update pdf and explicitly commit it (normally ignored via .gitignore)
 update-pdf:
 	@echo "Building PDF"
 	@cd ./tex; pdflatex -interaction=nonstopmode $(DOCNAME).tex > /dev/null; mv $(DOCNAME).pdf ../$(DOCNAME).pdf
 	@git add $(DOCNAME).pdf -f
-	@echo "Staging $(DOCNAME).pdf for commit (please complete commit manually)"
-
+	@echo "Staging $(DOCNAME).pdf for commit (please complete commit manually)\n"
 
 # Help 
 help:
@@ -30,4 +30,4 @@ help:
 	@echo "  make conda-export  - Export Poetry dependencies to Conda format"
 	@echo "  make update-doc  - Update PDF from tex source file"
 
-.PHONY: help all black conda
+.PHONY: help all black conda-export update-pdf

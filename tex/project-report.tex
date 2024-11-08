@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage[toc,page]{appendix}
 
 \usepackage[preprint]{neurips_2023}
 \usepackage[utf8]{inputenc} % allow utf-8 input
@@ -12,9 +13,13 @@
 \usepackage{xcolor}         % colors
 \usepackage{hyperref}       % links
 
+\usepackage{graphicx}       % include graphics
+\usepackage{float}
+\usepackage[T1]{fontenc}
+
+\newcommand{\sais}{Scottish Avalanche Information Service}
 
 \title{ML-based avalanche danger level forecasting. \\ Category: General Machine Learning}
-
 
 
 \author{
@@ -25,18 +30,39 @@
 
 \begin{document}
 
-
 \maketitle
+
+\graphicspath{{assets/figures/}}
 
 
 % \begin{abstract}
 % \end{abstract}
 
-\section*{CS229 Project Proposal}
+% TODOs:
+	% Go into details of what the snowpack data is
 
-Every year around a 100 people loose their lives to avalanches \href{https://www.avalanches.org/fatalities/}{in Europe alone} despite the fact that avalanche danger level forecasts are widely available there. There are many mountainous regions around the world for which no such forecasts are published.
-Automating the process of avalanche forecast generation could have real impact on lives of many people around the world. \\
-This is of course an extremely ambitious goal, well beyond the scope of even most exhaustive coursework project. However, as I'm a keen alpinist and this topic if very close to my heart, I'd like to explore how much I can achieve towards this goal over the next 7 weeks and open-source it for the benefit of other researchers, as well as potentially continue working on it beyond CS229.
+	% Milestone
+	% The milestone will help you make sure you're on track, and should describe what you've accomplished so far, and very briefly say what else you plan to do. You should write it as if it's an “early draft" of what will turn into your final project. You can write it as if you're writing the first few pages of your final project report, so that you can re-use most of the milestone text in your final report. Please write the milestone (and final report) keeping in mind that the intended audience are the instructors and the TAs. Thus, for example, you should not spend two pages explaining what logistic regression is. Your milestone should include the full names of all your team members and state the full title of your project. Note: We will expect your final writeup to be on the same topic as your milestone.
+	% Contributions
+	% Please include a section that describes what each team member worked on and contributed to the project. This is to make sure team members are carrying a fair share of the work for projects. If you have any concerns working with one of your project teammates, please create a private Ed post.
+	% Grading
+	% The milestone is mostly intended to get feedback from TAs to make sure you’re making reasonable progress. As long as your milestone follows the instructions above and you seem to have tested any assumptions which might prevent your team from completing the project, you should do well on the milestone.
+	% Format
+	% Your milestone should be at most 3 pages, excluding references. Similar to the proposal, it should include
+	% Motivation: What problem are you tackling, and what's the setting you're considering?
+	% Method: What machine learning techniques have you tried and why?
+	% Preliminary experiments: Describe the experiments that you've run, the outcomes, and any error analysis that you've done. You should have tried at least one baseline.
+	% Next steps: Given your preliminary results, what are the next steps that you're considering?
+	
+	
+
+\section*{Acknowledgements}
+
+\section{Motivation}
+
+	Every year around a 100 people loose their lives to avalanches \href{https://www.avalanches.org/fatalities/}{in Europe alone} despite the fact that avalanche danger level forecasts are widely available there. There are many mountainous regions around the world for which no such forecasts are published.
+	Automating the process of avalanche forecast generation could have real impact on lives of many people around the world. \\
+	This is of course an extremely ambitious goal, well beyond the scope of even most exhaustive coursework project. However, as I'm a keen alpinist and this topic if very close to my heart, I'd like to explore how much I can achieve towards this goal over the next 7 weeks and open-source it for the benefit of other researchers, as well as potentially continue working on it beyond CS229.
 
 	The main part of the avalanche danger level forecast for a given region is the overall avalanche danger level. It's expressed on a 5 point scale ranging from 1 (lowest) to 5 (highest).	\href{https://www.shastaavalanche.org/page/how-read-advisory}{Forecasts} for many regions often also contain: \href{https://avalanche.state.co.us/forecasts/tutorial/avalanche-problems}{the avalanche problems} (main characteristics of the snowpack which contribute to its instability and hence potential avalanche) and the aspect-elevation rose which shows more fine-grained avalanche danger levels broken down by slope's aspect and elevation. \\
 	My primary goal is to use the overall avalanche danger level forecast for the region as the dependent variable, however time- and data-permitting I'd also like to explore the possibility generating those more detailed elements of an avalanche forecast.	
@@ -44,13 +70,114 @@ This is of course an extremely ambitious goal, well beyond the scope of even mos
 	While I'm very enthusiastic about the topic, my biggest reservations were to do with the availability of data. However, my initial exploration has yielded some promising datasets. \href{https://www.sais.gov.uk/forecast-archive/}{Scottish Avalanche Information Service} provides historical forecasts for 5 regions since 1993 which we estimate to contain around 15,000 forecasts (typically the avalanche centres don't publish forecasts throughout the entire year). I have also been in touch with the \href{https://avalanche.org/national-avalanche-center/}{US Forest Service National Avalanche Center} and was told that it should be possible to obtain a dataset containing avalanche forecasts from the last 10 years from all of the avalanche centres in the US. \\
 	For the independent variables I'd like to use the weather variables typically associated with formation of avalanche problems (precipitation, temperature and wind activity across the season). I'd like to use the data source that provides historical and current results across the globe so that the methodology could be used to generate forecasts for regions which currently don't benefit from any official forecasts. I haven't yet decided which source to use, but from my initial search it seems like it should be possible to find a suitable one.
 	
-	I'd like to start with a simple softmax regression as a baseline and then compare its performance with more complex models. I'm also considering replicating some of the results presented in \href{https://nhess.copernicus.org/articles/22/2031/2022/}{P\'erez-Guill\'en et al. (2022)} using the datasets obtained for this project. I'll evaluate the model by calculating the difference between the predicted and actual avalanche danger level on a pre-assigned validation subset of the data. 
+	I'd like to start with a simple softmax regression as a baseline and then compare its performance with more complex models. I'm also considering replicating some of the results presented in \citation{nhess-22-2031-2022} using the datasets obtained for this project. I'll evaluate the model by calculating the difference between the predicted and actual avalanche danger level on a pre-assigned validation subset of the data. 
 	
+
+\section{Data}
+
+	This section briefly describes the datasets collected to date.
+
+\subsection{\sais}
+
+	The \href{https://www.sais.gov.uk/forecast-archive/}{Scottish Avalanche Information Service} (SAIS) provides historical avalanche forecasts for 6 regions in Scotland. The forecasts are typically published from December to April. SAIS allows bulk download of snowprofile data containing both observed (nowcast) and forecasted avalanche hazard level as well as snowprofile data collected during compilation of observed hazard levels. The size of the dataset prior to any cleansing is \input{assets/snippets/sais_size_initial.txt}observations.
+	\newline
+	The dataset contains two variables either of which could be used as our dependent variable: observed and forecasted avalanche hazard level.
+	The forecasted value is composed by avalanche professionals working in a given area based on the current state of the snowpack and the weather forecast for the next day.
+	The observed value (nowcast) is decided on the day after a field trip in the area for which the avalanche hazard level is being assessed and taking one or more measurements of the snowpack (by digging snow profiles).
+	\newline
+	While both values are composed used a standardised methodology, there's inherent subjectivity in both of them, but especially so in the nowcast as it relies a lot on travel throughout the area and multifaceted, in-person assessment of the snow conditions. For that reason we will use the forecasted value as our dependent value as it should be more standardised, have a clearer relationship with the weather inputs and thus be more feasible for the model to discover the underlying relationship between the variables.
+
+\subsubsection{Initial transformation}
+	We have dropped missing values of both potential independent variables and used various strategies for filling missing data (details can be found if Table \ref{tbl:sais_replacements_log}). Brining the number of observations from \input{assets/snippets/sais_size_initial.txt} to \input{assets/snippets/sais_size_final.txt}
+\subsubsection{Splits}
+	As seen in Table \ref{tbl:sais_area_breakdown} the "Torridon" region only has relevant observations present present from the 2013/2014 winter season (as opposed to the other ones for which relevant observations are present from 2007/2008 season onwards). 
+	Because of that the region has fewest observations and might have different characterstics due to changes in methodology and climate over time. For that reason we have decided to use it as a test set to see how well the models generalize into other regions (and to some extent different time frames).
+	While it would be nice to be able to test how well models generalize to other time frames for the data from the same regions as they were trained on we have decided not to withold any data for that purpose not to reduce the size of the remaining datasetset any further. This data will start appearing for the 2024/2025 winter season soon, so we will extend the dataset with it when available.
+	\newline
+	We have used 20\% of the remaining data as the development set stratifying on both the areas and avalanche hazard levels. The resulting split is presented in the table below:
+
+	\input{assets/tables/sais_hazard_breakdown_per_split.tex}
+
+	Breakdown of hazard levels per each area in Training and Development sets can be found in Tables \ref{tbl:sais_mapped_hazard_breakdown_per_area_train} and \ref{tbl:sais_mapped_hazard_breakdown_per_area_dev}
+
+\subsection{US Forest Service National Avalanche Center}
+
+\section{Metrics}
+
+	To begin with with will consider accuracy, precision, recall and F-1 score as the primary metrics for evaluating the model. Accuracy works the same as in the binary classification case, but the other metrics will need to be calculated per class (considering a given class vs all others). We will also plot the confusion matrices for different models and include them in the appendix.
+	In the later part of the project we might also consider other metrics, such as macro- and micro-averaged of the above per-class metrics.
+	\newline
+	We might also consider other metrics that would allow us to capture if a given model tends to over- or under-report the hazard level as, if having to choose between the two, a general 
+	preference would be towards over-reporting for a system used to predict hazards (so it's users are rather overly cautious than overlyoptimistic about the conditions). 
+
+
+\subsection{Baseline fits}
+
+	To get a better feel for how the different metrics are behaving on this dataset we will compute two baselines: 
+	\begin{enumerate}
+		\item A constant model that always predicts the most common class in the test set.
+		\item Evaluate different metrics on the mapped values of observed vs forecasted avalanche danger levels present in the test set.
+	\end{enumerate}
+	The idea is that the first baseline will provide a lower bound on the performance of any model we might want to seriously consider and the second one will likely be the upper bound as it's compiled by the same experts who made the forecast, but with the additional benefit of being able to directly observe the actual changes in the snowpack.
+
+	Metrics for those baselines and all the models considered will be included in Section \ref{sec:evaluation}.
+
+\section{Model Fitting}
+
+	In this section, we describe the process of fitting machine learning models to the collected data. We start with a simple softmax regression model as a baseline and then explore more complex models.
+
+\subsection{Softmax Regression}
+
+	Softmax regression, also known as multinomial logistic regression, is a generalization of logistic regression to multiple classes. It is a simple and interpretable model that serves as a good starting point.
+
+\section{Evaluation}\label{sec:evaluation}
+
+\section{Next steps}
+	Please note that some of these are nice to haves, I very likely will not manage to go though all of them in the time available (though I am keen to continue working on this problem beyond this term):
+	\begin{itemize}
+		\item Expolore performance of more complex models. 
+		\item Look into APIs for historical weather data.
+		\item If historical data is available revisit SAIS dataset and train it on: mixture of existing snowprofiles and weather data, weather data only, [simulated snow profiles](https://snowpack.slf.ch).
+		\item If the above shows promise re-run it on US Forrest Service dataset.
+		\item See if it's possible to use data relating to observations of snowpack at different points to add more granularity to the model (still predict overall hazard level for a forecast area, but see if it can be locally raised or lowered depening on aspects, elevations, angles and altitudes).
+		\item Visualise predictions on a map.
+	\end{itemize}
+
+\newpage
+\begin{appendices}
+	\section{Dataset details}
+	This section contains further details of the datasets used for the project.
+
+	\subsection{\sais}
+	
+	\input{assets/tables/sais_summary_initial.tex}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\textwidth]{sais_observation_histogram.png}
+		\caption{Histogram of avalanche danger levels in the SAIS dataset.}
+		\label{fig:sais_observation_histogram}
+	\end{figure}
+
+	\input{assets/tables/sais_area_breakdown.tex}
+	\input{assets/tables/sais_hazard_breakdown_per_area.tex}
+	\input{assets/tables/sais_mapped_hazard_breakdown_per_area.tex}
+	\input{assets/tables/sais_replacements_log.tex}
+	\input{assets/tables/sais_mapped_hazard_breakdown_per_area_train.tex}
+	\input{assets/tables/sais_mapped_hazard_breakdown_per_area_dev.tex}
+\end{appendices}
+	
+
+% \bibliographystyle{plainnat}  
+% \bibliography{references}   
+\nocite{*}
+\bibdata{references}
+\bibstyle{plainnat}  
+\end{document}
+
 	% Leftovers:
 	%	As the number of people participating in outdoor recreation is \href{https://americancanoe.org/wp-content/uploads/2023/06/2023_Outdoor_Participation_Trends_Report.pdf}{steadily growing in the US}, and likely most of the other countries with access to mountains too, a
 	%	On a \href{https://avalanche.org/avalanche-encyclopedia/human/resources/north-american-public-avalanche-danger-scale/}{North American scale} the levels are: 1 - "low", 2 - "moderate", 3 - "considerable", 4 - "high", 5 - "extreme". 
 	%	The \href{https://www.avalanches.org/standards/avalanche-danger-scale/}{European scale} is similar with level 5 being described as "very high". Due to the ongoing efforts of the global avalanche forecasting scientific community the forecasting terminology have been getting more standardised across the world. However, it has to be noted that regional difference may still be present. 
 	%	aspect ("N", "NE", "E", "SE", "S", "SW", "W", "NW") and elevation (either absolute elevations applicable to a given region or relative elevations driven by tree cover: "below treeline", "near treeline", "above treeline").
 	
-\end{document}
-
