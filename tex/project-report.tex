@@ -17,6 +17,9 @@
 \usepackage{float}
 \usepackage[T1]{fontenc}
 
+\usepackage{caption}
+\usepackage{subcaption}
+
 \newcommand{\sais}{Scottish Avalanche Information Service}
 
 \title{ML-based avalanche danger level forecasting. \\ Category: General Machine Learning}
@@ -131,6 +134,8 @@
 	Softmax regression, also known as multinomial logistic regression, is a generalization of logistic regression to multiple classes. It is a simple and interpretable model that serves as a good starting point.
 
 \section{Evaluation}\label{sec:evaluation}
+	The evaluation metrics for each model computed on the test are presented below. Please refer to the appendix for equivalent tables for the development sets.
+	\input{assets/tables/sais_eval_test.tex}
 
 \section{Next steps}
 	Please note that some of these are nice to haves, I very likely will not manage to go though all of them in the time available (though I am keen to continue working on this problem beyond this term):
@@ -165,6 +170,40 @@
 	\input{assets/tables/sais_replacements_log.tex}
 	\input{assets/tables/sais_mapped_hazard_breakdown_per_area_train.tex}
 	\input{assets/tables/sais_mapped_hazard_breakdown_per_area_dev.tex}
+
+	\section{Evaluation}
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}[t]{0.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{sais_confusion_matrix_constant_test.png}
+			\caption{Test set}
+		\end{subfigure}
+		\hfil
+		\begin{subfigure}[t]{0.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{sais_confusion_matrix_constant_development.png}
+			\caption{Development set}
+		\end{subfigure}
+		\caption{Constant model}
+	\end{figure}
+
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}[t]{0.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{sais_confusion_matrix_observed_test.png}
+			\caption{Test set}
+		\end{subfigure}
+		\hfil
+		\begin{subfigure}[t]{0.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{sais_confusion_matrix_observed_development.png}
+			\caption{Development set}
+		\end{subfigure}
+		\caption{"Observed" model}
+	\end{figure}
+
 \end{appendices}
 	
 

@@ -9,3 +9,4 @@ poetry.lock
 *.out
 tex/project-report.blg
 tex/project-report.bbl
+*.pyc
