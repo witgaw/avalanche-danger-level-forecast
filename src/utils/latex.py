@@ -31,7 +31,7 @@ class LatexHelpers:
                     index=index,
                     caption=caption,
                     label=f"tbl:{name}",
-                    position="h",
+                    position="H",
                     float_format="{:0.1f}".format,
                 )
             )

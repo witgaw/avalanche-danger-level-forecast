@@ -1,23 +1,23 @@
 \begin{table}[h]
 \caption{Evaluation metrics computed on the test set}
 \label{tbl:sais_eval_test}
-\begin{tabular}{lll}
+\begin{tabular}{llll}
 \toprule
- & constant & "observed" \\
+ & constant & "observed" & softmax regression \\
 \midrule
-MSE & 2.4 & 0.2 \\
-average error & -1.4 & 0.1 \\
-highest error & -2 & 2 \\
-accuracy & 0.1 & 0.8 \\
-precision (multiclass) & [0.0, 0.0, 0.12, 0.0] & [0.82, 0.78, 0.89, 0.0] \\
-precision (micro) & 0.1 & 0.8 \\
-precision (macro) & 0.0 & 0.6 \\
-recall (multiclass) & [0.0, 0.0, 1.0, 0.0] & [0.93, 0.71, 0.63, 0.0] \\
-recall (micro) & 0.1 & 0.8 \\
-recall (macro) & 0.2 & 0.6 \\
-$F_1$ (multiclass) & [0.0, 0.0, 0.22, 0.0] & [0.87, 0.74, 0.74, 0.0] \\
-$F_1$ (micro) & 0.1 & 0.8 \\
-$F_1$ (macro) & 0.1 & 0.6 \\
+MSE & 1.5 & 0.3 & 0.6 \\
+average error & -0.8 & 0.2 & 0.0 \\
+highest error & -2 & 2 & 3 \\
+accuracy & 0.4 & 0.7 & 0.6 \\
+precision (multiclass) & [0.0, 0.0, 0.35, 0.0] & [0.74, 0.66, 0.81, 0.69] & [0.64, 0.43, 0.58, 0.0] \\
+precision (micro) & 0.4 & 0.7 & 0.6 \\
+precision (macro) & 0.1 & 0.7 & 0.4 \\
+recall (multiclass) & [0.0, 0.0, 1.0, 0.0] & [0.93, 0.64, 0.71, 0.4] & [0.69, 0.34, 0.73, 0.0] \\
+recall (micro) & 0.4 & 0.7 & 0.6 \\
+recall (macro) & 0.2 & 0.7 & 0.4 \\
+$F_1$ (multiclass) & [0.0, 0.0, 0.52, 0.0] & [0.82, 0.65, 0.76, 0.51] & [0.66, 0.38, 0.65, 0.0] \\
+$F_1$ (micro) & 0.4 & 0.7 & 0.6 \\
+$F_1$ (macro) & 0.1 & 0.7 & 0.4 \\
 \bottomrule
 \end{tabular}
 \end{table}
