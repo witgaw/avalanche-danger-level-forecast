@@ -10,3 +10,6 @@ poetry.lock
 tex/project-report.blg
 tex/project-report.bbl
 *.pyc
+data/processed/SAIS_train_tabularised.csv
+data/processed/SAIS_dev_tabularised.csv
+data/processed/SAIS_test_tabularised.csv

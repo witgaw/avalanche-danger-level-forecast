@@ -1,7 +1,7 @@
 DOCNAME = project-report
 
 # Default target
-all: black conda-export update-pdf
+all: black conda-export update-pdf test
 
 # Run Black on all Python files
 black:
@@ -22,6 +22,9 @@ update-pdf:
 	@git add $(DOCNAME).pdf -f
 	@echo "Staging $(DOCNAME).pdf for commit (please complete commit manually)\n"
 
+test:
+	@poetry run pytest
+
 # Help 
 help:
 	@echo "Available targets:"
@@ -30,4 +33,4 @@ help:
 	@echo "  make conda-export  - Export Poetry dependencies to Conda format"
 	@echo "  make update-doc  - Update PDF from tex source file"
 
-.PHONY: help all black conda-export update-pdf
+.PHONY: help all black conda-export update-pdf test
