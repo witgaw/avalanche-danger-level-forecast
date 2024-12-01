@@ -149,7 +149,7 @@ class MulticlassErrorMetrics:
             y_true, y_pred, average="macro"
         )
         df_metrics.loc[model_name, self._metrics[-1]] = metrics.confusion_matrix(
-            y_true, y_pred, normalize="all"
+            y_true, y_pred, normalize="true"
         )
 
     def save_assets(self):
@@ -157,7 +157,7 @@ class MulticlassErrorMetrics:
         for ds_type, table in self.tables.items():
             confusion_matrices = table.iloc[:, -1]
             tbl = table.iloc[:, :-1].T
-            set_name = str(ds_type)
+            set_name = ds_type.value
             LatexHelpers.save_as_latex_table(
                 tbl,
                 name=f"{self.dataset_name}_eval_{set_name}",

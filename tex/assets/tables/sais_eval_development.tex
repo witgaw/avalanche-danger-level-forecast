@@ -1,23 +1,23 @@
 \begin{table}[H]
 \caption{Evaluation metrics computed on the development set}
 \label{tbl:sais_eval_development}
-\begin{tabular}{llll}
+\begin{tabular}{lllll}
 \toprule
- & constant & "observed" & softmax regression \\
+ & constant & observed & softmax regression (snow profiles) & softmax regression (snow profiles tabularised) \\
 \midrule
-MSE & 1.5 & 0.3 & 0.9 \\
-average error & -0.8 & 0.2 & -0.2 \\
-highest error & -2 & 3 & 3 \\
-accuracy & 0.4 & 0.7 & 0.5 \\
-precision (multiclass) & [0.0, 0.0, 0.35, 0.0] & [0.73, 0.66, 0.82, 0.71] & [0.59, 0.38, 0.51, 0.04] \\
-precision (micro) & 0.4 & 0.7 & 0.5 \\
-precision (macro) & 0.1 & 0.7 & 0.4 \\
-recall (multiclass) & [0.0, 0.0, 1.0, 0.0] & [0.92, 0.63, 0.72, 0.42] & [0.53, 0.22, 0.78, 0.02] \\
-recall (micro) & 0.4 & 0.7 & 0.5 \\
-recall (macro) & 0.2 & 0.7 & 0.4 \\
-$F_1$ (multiclass) & [0.0, 0.0, 0.52, 0.0] & [0.82, 0.64, 0.77, 0.53] & [0.56, 0.28, 0.62, 0.03] \\
-$F_1$ (micro) & 0.4 & 0.7 & 0.5 \\
-$F_1$ (macro) & 0.1 & 0.7 & 0.4 \\
+MSE & 1.5 & 0.3 & 0.5 & 1.7 \\
+average error & -0.8 & 0.2 & 0.1 & -0.1 \\
+highest error & -2 & 3 & 2 & 3 \\
+accuracy & 0.4 & 0.7 & 0.6 & 0.3 \\
+precision (multiclass) & [0.0, 0.0, 0.35, 0.0] & [0.73, 0.66, 0.82, 0.71] & [0.68, 0.51, 0.66, 0.58] & [0.32, 0.3, 0.35, 0.06] \\
+precision (micro) & 0.4 & 0.7 & 0.6 & 0.3 \\
+precision (macro) & 0.1 & 0.7 & 0.6 & 0.3 \\
+recall (multiclass) & [0.0, 0.0, 1.0, 0.0] & [0.92, 0.63, 0.72, 0.42] & [0.76, 0.41, 0.77, 0.15] & [0.3, 0.29, 0.35, 0.11] \\
+recall (micro) & 0.4 & 0.7 & 0.6 & 0.3 \\
+recall (macro) & 0.2 & 0.7 & 0.5 & 0.3 \\
+$F_1$ (multiclass) & [0.0, 0.0, 0.52, 0.0] & [0.82, 0.64, 0.77, 0.53] & [0.72, 0.46, 0.71, 0.24] & [0.31, 0.29, 0.35, 0.08] \\
+$F_1$ (micro) & 0.4 & 0.7 & 0.6 & 0.3 \\
+$F_1$ (macro) & 0.1 & 0.7 & 0.5 & 0.3 \\
 \bottomrule
 \end{tabular}
 \end{table}
