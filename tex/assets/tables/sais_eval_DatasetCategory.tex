@@ -1,0 +1,23 @@
+\begin{table}[H]
+\caption{Evaluation metrics computed on the DatasetCategory.TEST set}
+\label{tbl:sais_eval_DatasetCategory}
+\begin{tabular}{llll}
+\toprule
+ & constant & observed & softmax regression \\
+\midrule
+MSE & 2.4 & 0.2 & 0.3 \\
+average error & -1.4 & 0.1 & 0.0 \\
+highest error & -2 & 2 & 2 \\
+accuracy & 0.1 & 0.8 & 0.7 \\
+precision (multiclass) & [0.0, 0.0, 0.12, 0.0] & [0.82, 0.78, 0.89, 0.0] & [0.79, 0.65, 0.43, 0.0] \\
+precision (micro) & 0.1 & 0.8 & 0.7 \\
+precision (macro) & 0.0 & 0.6 & 0.5 \\
+recall (multiclass) & [0.0, 0.0, 1.0, 0.0] & [0.93, 0.71, 0.63, 0.0] & [0.88, 0.46, 0.63, 0.0] \\
+recall (micro) & 0.1 & 0.8 & 0.7 \\
+recall (macro) & 0.2 & 0.6 & 0.5 \\
+$F_1$ (multiclass) & [0.0, 0.0, 0.22, 0.0] & [0.87, 0.74, 0.74, 0.0] & [0.84, 0.54, 0.51, 0.0] \\
+$F_1$ (micro) & 0.1 & 0.8 & 0.7 \\
+$F_1$ (macro) & 0.1 & 0.6 & 0.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
