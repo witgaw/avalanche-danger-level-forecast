@@ -1,0 +1,72 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Creag Meagaidh",
+          "summit": "Creag Meagaidh"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-4.60196, 56.95195]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Glencoe",
+          "summit": "Bidean Nam Bian"
+
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-5.02925, 56.64284]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Lochaber",
+          "summit": "Ben Nevis"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-5.003677, 56.79683]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Northern Cairngorms",
+          "summit": "Cairn Gorm"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-3.643455, 57.116658]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Southern Cairngorms",
+          "summit": "Carn An Tuirc"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-3.357125, 56.908283]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Torridon",
+          "summit": "Ruadh Stac Mor"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-5.329288, 57.726781]
+        }
+      }
+    ]
+}
