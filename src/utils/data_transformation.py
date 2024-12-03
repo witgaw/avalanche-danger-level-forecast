@@ -13,12 +13,7 @@ def tabularise_data_by_season_and_area(
     data["Date"] = pd.to_datetime(data["Date"])
 
     col_seasons_day = "day_of_season"
-    # other_variables = sorted(
-    #     list(set(data.columns.tolist()) - set(dependent_variables))
-    # )
-
     other_variables = [col for col in data.columns if col not in dependent_variables]
-
     dependent_columns = [
         f"{var.lower().replace(" ", "_")}_{i}"
         for var in dependent_variables
