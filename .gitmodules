@@ -1,0 +1,3 @@
+[submodule "data/proprietary"]
+	path = data/proprietary
+	url = git@github.com:witgaw/avalanche-danger-level-forecast_proprietary_data
