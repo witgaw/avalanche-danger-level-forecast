@@ -13,3 +13,4 @@ tex/project-report.bbl
 data/processed/SAIS_train_tabularised.csv
 data/processed/SAIS_dev_tabularised.csv
 data/processed/SAIS_test_tabularised.csv
+data/proprietary/*
