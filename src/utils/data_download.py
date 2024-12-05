@@ -51,9 +51,8 @@ def try_download_visual_crossing_data_and_save_to_csv(
     soil_variables = "soiltemp01,soiltemp04,soiltemp10,soiltemp20,soilmoisture01,soilmoisture04,soilmoisture10,soilmoisture20,"
 
     variables = f"{wind_variables}{temperature_variables}{precipitation_variables}{misc_variables}{soil_variables}"
-
     frequency = "hours" if hourly else "days"
-    # req_observed = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{latitute},{longitude}/{start_date}/{end_date}?unitGroup=metric&elements=datetime,{variables}&include={frequency},obs,remote&key={api_key}&contentType=csv"
+
     req = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{latitute},{longitude}/{start_date}/{end_date}?unitGroup=metric&elements=datetime,{variables}&include={frequency},{"forecast" if forecast else "obs"},remote{"&forecastBasisDay=1" if forecast else ""}&key={api_key}&contentType=csv"
 
     response = requests.request("GET", req)

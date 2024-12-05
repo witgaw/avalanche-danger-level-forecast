@@ -68,7 +68,7 @@ class MulticlassErrorMetrics:
         return self._metrics
 
     def _to_loc(self, model_name: str, independent_variables: str) -> str:
-        if independent_variables!=None and "," in independent_variables:
+        if independent_variables != None and "," in independent_variables:
             raise ValueError(
                 f"independent_variables string cannot contain commas, got: {independent_variables}"
             )
