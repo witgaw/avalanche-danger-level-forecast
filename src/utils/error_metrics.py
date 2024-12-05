@@ -179,3 +179,7 @@ class MulticlassErrorMetrics:
                 )
                 plt.close()
         plt.show()
+
+    def get_error_table_for_set(self, set: DatasetCategory) -> pd.DataFrame:
+        return self.tables[set]
+    
