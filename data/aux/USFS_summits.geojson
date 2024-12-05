@@ -1,0 +1,319 @@
+
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "BAC",
+                "name": "Bridgeport",
+                "summit": "",
+                "website": "https://bridgertetonavalanchecenter.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "BTAC",
+                "name": "Bridger-Teton",
+                "summit": "",
+                "website": "https://bridgertetonavalanchecenter.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "COAA",
+                "name": "Central Oregon",
+                "summit": "",
+                "website": "www.coavalanche.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "ESAC",
+                "name": "Eastern Sierra",
+                "summit": "",
+                "website": "www.esavalanche.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "FAC",
+                "name": "Flathead",
+                "summit": "",
+                "website": "www.flatheadavalanche.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "IPAC",
+                "name": "Idaho Panhandle",
+                "summit": "",
+                "website": "www.idahopanhandleavalanche.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "KPAC",
+                "name": "Kachina Peaks",
+                "summit": "",
+                "website": "www.kachinapeaks.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "MSAC",
+                "name": "Mount Shasta",
+                "summit": "",
+                "website": "www.shastaavalanche.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "MWAC",
+                "name": "Mount Washington",
+                "summit": "",
+                "website": "www.mountwashingtonavalanchecenter.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "NWAC",
+                "name": "Northwest",
+                "summit": "",
+                "website": "nwac.us"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "PAC",
+                "name": "Payette",
+                "summit": "",
+                "website": "www.payetteavalanche.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "SNFAC",
+                "name": "Sawtooth",
+                "summit": "",
+                "website": "www.sawtoothavalanche.com"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "WAC",
+                "name": "Wallowa",
+                "summit": "",
+                "website": "www.wallowaavalanchecenter.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "WCMAC",
+                "name": "West Central Montana",
+                "summit": "",
+                "website": "www.missoulaavalanche.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "CBAC",
+                "name": "Crested Butte",
+                "summit": "",
+                "website": "www.cbavalanchecenter.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "SAC",
+                "name": "Sierra",
+                "summit": "",
+                "website": "www.sierraavalanchecenter.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "TAC",
+                "name": "Tahoe",
+                "summit": "",
+                "website": "www.taosavalanchecenter.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "CAIC",
+                "name": "Colorado",
+                "summit": "",
+                "website": "www.avalanche.state.co.us"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "CNFAIC",
+                "name": "Chugach National Forest",
+                "summit": "",
+                "website": "www.cnfaic.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "GNFAC",
+                "name": "Gallatin National Forest",
+                "summit": "",
+                "website": "www.mtavalanche.com"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "HPAC",
+                "name": "Hatcher Pass",
+                "summit": "",
+                "website": "www.hpavalanche.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "UAC",
+                "name": "Utah",
+                "summit": "",
+                "website": "www.utahavalanchecenter.org"
+            },
+            "geometry": {
+                "type": "Point",
+                // note: Utah avalanche center contains a bunch of sub-regions, these will need to be broken down fruther if the avalanche danger level rating data we have is at such granuality (it is for UTAH, needs to be checked for other regions though)
+                "coordinates": [TODO, TODO]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "VAC",
+                "name": "Valdez",
+                "summit": "Mount Michelson",
+                "website": "www.alaskasnow.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-144.268827, 69.307715]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "code": "HAC",
+                "name": "Haines",
+                "summit": "Mount Nesselrode",
+                "website": "www.alaskasnow.org"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-134.313402, 58.962228]
+            }
+        }
+    ]
+}

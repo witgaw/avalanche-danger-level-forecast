@@ -28,11 +28,6 @@ class MulticlassErrorMetrics:
 
         self.dataset_name = dataset_name
         self.assets_path = assets_path
-        self.confussion_mat_entry_format = confussion_mat_entry_format
-        self.__confusion_matrix_index = -1
-
-        if y_true_train is None or y_true_dev is None or y_true_test is None:
-            raise ValueError("all arguments must be set to non-null values")
 
         self.y_true = {
             DatasetCategory.TRAINING: y_true_train,
@@ -57,6 +52,8 @@ class MulticlassErrorMetrics:
             "$F_1$ (macro)",
             "confusion matrix",
         ]
+        self.__confusion_matrix_index = -1
+        self.confussion_mat_entry_format = confussion_mat_entry_format
 
         self.tables = {
             DatasetCategory.TRAINING: pd.DataFrame(columns=self._metrics),
@@ -102,7 +99,6 @@ class MulticlassErrorMetrics:
         set_cat: DatasetCategory,
         y_pred: ArrayLike,
     ) -> None:
-
         df_metrics = None
         y_true = None
 
@@ -112,7 +108,9 @@ class MulticlassErrorMetrics:
 
         y_true = self.y_true[set_cat]
         if y_true is None:
-            raise ValueError(f"'y_true' not found for '{set_cat}'")
+            if y_pred is None:
+                return
+            raise ValueError(f"'y_true' not found for '{set_cat}' while 'y_pred' was specified")
 
         if np.isscalar(y_pred):
             y_pred = np.full_like(y_true, y_pred)
@@ -177,6 +175,9 @@ class MulticlassErrorMetrics:
     def save_assets(self):
         plt.ioff()
         for set_cat, table in self.tables.items():
+            if self.y_true[set_cat] is None:
+                continue
+            
             confusion_matrices = table.iloc[:, -1]
             tbl = table.iloc[:, :-1].T
             set_name = set_cat.value
@@ -208,7 +209,7 @@ class MulticlassErrorMetrics:
         set_cat: DatasetCategory,
     ) -> None:
         disp = metrics.ConfusionMatrixDisplay(
-            confusion_matrix=confusion_matrix, display_labels=self.classes
+            confusion_matrix=confusion_matrix, display_labels=self.classes,
         )
         disp.plot(values_format=self.confussion_mat_entry_format)
         plt.title(
