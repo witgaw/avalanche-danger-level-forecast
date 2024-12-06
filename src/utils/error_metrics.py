@@ -42,13 +42,10 @@ class MulticlassErrorMetrics:
             "highest error",
             "accuracy",
             "precision (multiclass)",
-            "precision (micro)",
             "precision (macro)",
             "recall (multiclass)",
-            "recall (micro)",
             "recall (macro)",
             "$F_1$ (multiclass)",
-            "$F_1$ (micro)",
             "$F_1$ (macro)",
             "confusion matrix",
         ]
@@ -110,7 +107,9 @@ class MulticlassErrorMetrics:
         if y_true is None:
             if y_pred is None:
                 return
-            raise ValueError(f"'y_true' not found for '{set_cat}' while 'y_pred' was specified")
+            raise ValueError(
+                f"'y_true' not found for '{set_cat}' while 'y_pred' was specified"
+            )
 
         if np.isscalar(y_pred):
             y_pred = np.full_like(y_true, y_pred)
@@ -142,30 +141,21 @@ class MulticlassErrorMetrics:
             )
         ]
         df_metrics.loc[loc, self._metrics[5]] = metrics.precision_score(
-            y_true, y_pred, average="micro", zero_division=0
-        )
-        df_metrics.loc[loc, self._metrics[6]] = metrics.precision_score(
             y_true, y_pred, average="macro", zero_division=0
         )
         # recall
-        df_metrics.loc[loc, self._metrics[7]] = [
+        df_metrics.loc[loc, self._metrics[6]] = [
             round(float(x), 2)
             for x in metrics.recall_score(y_true, y_pred, average=None)
         ]
-        df_metrics.loc[loc, self._metrics[8]] = metrics.recall_score(
-            y_true, y_pred, average="micro"
-        )
-        df_metrics.loc[loc, self._metrics[9]] = metrics.recall_score(
+        df_metrics.loc[loc, self._metrics[7]] = metrics.recall_score(
             y_true, y_pred, average="macro"
         )
         # F-1
-        df_metrics.loc[loc, self._metrics[10]] = [
+        df_metrics.loc[loc, self._metrics[8]] = [
             round(float(x), 2) for x in metrics.f1_score(y_true, y_pred, average=None)
         ]
-        df_metrics.loc[loc, self._metrics[11]] = metrics.f1_score(
-            y_true, y_pred, average="micro"
-        )
-        df_metrics.loc[loc, self._metrics[12]] = metrics.f1_score(
+        df_metrics.loc[loc, self._metrics[9]] = metrics.f1_score(
             y_true, y_pred, average="macro"
         )
         df_metrics.loc[loc, self._metrics[self.__confusion_matrix_index]] = (
@@ -177,7 +167,7 @@ class MulticlassErrorMetrics:
         for set_cat, table in self.tables.items():
             if self.y_true[set_cat] is None:
                 continue
-            
+
             confusion_matrices = table.iloc[:, -1]
             tbl = table.iloc[:, :-1].T
             set_name = set_cat.value
@@ -209,7 +199,8 @@ class MulticlassErrorMetrics:
         set_cat: DatasetCategory,
     ) -> None:
         disp = metrics.ConfusionMatrixDisplay(
-            confusion_matrix=confusion_matrix, display_labels=self.classes,
+            confusion_matrix=confusion_matrix,
+            display_labels=self.classes,
         )
         disp.plot(values_format=self.confussion_mat_entry_format)
         plt.title(
