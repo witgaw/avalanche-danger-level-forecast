@@ -14,11 +14,13 @@ There's an [avalanche map](https://www.sais.gov.uk/avalanche_map/?area=-1&type=A
 
 ## TODO
 
-- Hyperparameter tuning
+- Look at feature correlation & distribution
 - Use PCA to reduce dimensionality and visualise most relevant data points.
-- Add one hot encoding of area to see how much it helps fits
+- Try StackingClassifier
+- Try AdaBoost
 - Revisit reference paper.
 - Visualise predictions on a map.
+- Add one hot encoding of area to see how much it helps fits
 
 ## USFS
 

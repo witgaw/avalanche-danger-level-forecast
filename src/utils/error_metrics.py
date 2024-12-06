@@ -186,7 +186,7 @@ class MulticlassErrorMetrics:
                     confusion_matrix, model_name, independent_variables, set_cat
                 )
                 plt.savefig(
-                    f"{self.assets_path}/figures/{self.dataset_name}_confusion_matrix_{model_name.replace('"','').replace(' ','_')}_{set_name}.png"
+                    f"{self.assets_path}/figures/{self.dataset_name}_confusion_matrix_{model_name.replace('"','').replace(' ','_')}_{independent_variables.replace('"','').replace(' ','_')}_{set_name}.png"
                 )
                 plt.close()
         plt.show()
