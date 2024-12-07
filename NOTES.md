@@ -16,9 +16,6 @@ There's an [avalanche map](https://www.sais.gov.uk/avalanche_map/?area=-1&type=A
 
 - Look at feature correlation & distribution
 - Use PCA to reduce dimensionality and visualise most relevant data points.
-- Try StackingClassifier
-- Try AdaBoost
-- Revisit reference paper.
 - Visualise predictions on a map.
 - Add one hot encoding of area to see how much it helps fits
 

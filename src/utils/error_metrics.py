@@ -39,13 +39,27 @@ class MulticlassErrorMetrics:
         self._metrics = [
             "MSE",
             "average error",
-            "highest error",
             "accuracy",
-            "precision (multiclass)",
-            "precision (macro)",
-            "recall (multiclass)",
+            "precision:",
+            "1 ",
+            "2  ",
+            "3   ",
+            "4    ",
+            "    ",
+            "prec. (macro)",
+            "recall:",
+            "1     ",
+            "2      ",
+            "3       ",
+            "4        ",
+            "        ",
             "recall (macro)",
-            "$F_1$ (multiclass)",
+            "$F_1$:",
+            "1         ",
+            "2          ",
+            "3           ",
+            "4            ",
+            "            ",
             "$F_1$ (macro)",
             "confusion matrix",
         ]
@@ -121,61 +135,105 @@ class MulticlassErrorMetrics:
 
         loc = self._to_loc(model_name, independent_variables)
 
+        n = 0
         # MSE
-        df_metrics.loc[loc, self._metrics[0]] = metrics.mean_squared_error(
+        df_metrics.loc[loc, self._metrics[n]] = metrics.mean_squared_error(
             y_true, y_pred
         )
-        df_metrics.loc[loc, self._metrics[1]] = np.average(y_true - y_pred)
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = np.average(y_true - y_pred)
         # highest error
-        er = y_true - y_pred
-        mx = np.max(er)
-        mn = np.min(er)
-        df_metrics.loc[loc, self._metrics[2]] = int(mn if abs(mn) > mx else mx)
         # accuracy
-        df_metrics.loc[loc, self._metrics[3]] = metrics.accuracy_score(y_true, y_pred)
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = metrics.accuracy_score(y_true, y_pred)
         # precision
-        df_metrics.loc[loc, self._metrics[4]] = [
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = ""
+        prec_multi = [
             round(float(x), 2)
             for x in metrics.precision_score(
                 y_true, y_pred, average=None, zero_division=0
             )
         ]
-        df_metrics.loc[loc, self._metrics[5]] = metrics.precision_score(
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = prec_multi[0]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = prec_multi[1]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = prec_multi[2]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = prec_multi[3]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = ""
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = metrics.precision_score(
             y_true, y_pred, average="macro", zero_division=0
         )
         # recall
-        df_metrics.loc[loc, self._metrics[6]] = [
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = ""
+        recall_multi = [
             round(float(x), 2)
             for x in metrics.recall_score(y_true, y_pred, average=None)
         ]
-        df_metrics.loc[loc, self._metrics[7]] = metrics.recall_score(
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = recall_multi[0]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = recall_multi[1]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = recall_multi[2]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = recall_multi[3]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = ""
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = metrics.recall_score(
             y_true, y_pred, average="macro"
         )
         # F-1
-        df_metrics.loc[loc, self._metrics[8]] = [
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = ""
+        f1_multi = [
             round(float(x), 2) for x in metrics.f1_score(y_true, y_pred, average=None)
         ]
-        df_metrics.loc[loc, self._metrics[9]] = metrics.f1_score(
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = f1_multi[0]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = f1_multi[1]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = f1_multi[2]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = f1_multi[3]
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = ""
+        n+=1
+        df_metrics.loc[loc, self._metrics[n]] = metrics.f1_score(
             y_true, y_pred, average="macro"
         )
+        n+=1
         df_metrics.loc[loc, self._metrics[self.__confusion_matrix_index]] = (
             metrics.confusion_matrix(y_true, y_pred, normalize="true")
         )
 
-    def save_assets(self):
+    def save_assets(self, table_transpose: bool =True, table_model_name_only: bool =True, table_float_format:str = "{:0.1f}", table_caption_additional: str = None):
         plt.ioff()
         for set_cat, table in self.tables.items():
             if self.y_true[set_cat] is None:
                 continue
 
             confusion_matrices = table.iloc[:, -1]
-            tbl = table.iloc[:, :-1].T
+            tbl = table.iloc[:, :-1]
+            if table_model_name_only:
+                tbl.index = tbl.index.str.split(',').str[0]
+            if table_transpose:
+                tbl = tbl.T
             set_name = set_cat.value
             LatexHelpers.save_as_latex_table(
                 tbl,
                 name=f"{self.dataset_name}_eval_{set_name}",
-                caption=f"Evaluation metrics computed on the {set_name} set",
+                caption=f"Evaluation metrics computed on the {set_name} set{table_caption_additional}",
                 path=f"{self.assets_path}/tables",
+                float_format=table_float_format,
             )
             for j in range(len(confusion_matrices.index)):
                 model_name, independent_variables = self._from_loc(
@@ -186,7 +244,8 @@ class MulticlassErrorMetrics:
                     confusion_matrix, model_name, independent_variables, set_cat
                 )
                 plt.savefig(
-                    f"{self.assets_path}/figures/{self.dataset_name}_confusion_matrix_{model_name.replace('"','').replace(' ','_')}_{independent_variables.replace('"','').replace(' ','_')}_{set_name}.png"
+                    f"{self.assets_path}/figures/{self.dataset_name}_confusion_matrix_{model_name.replace('"','').replace(' ','_')}_{independent_variables.replace('"','').replace(' ','_')}_{set_name}.png",
+                    dpi=300
                 )
                 plt.close()
         plt.show()

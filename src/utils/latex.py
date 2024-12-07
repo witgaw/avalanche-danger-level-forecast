@@ -16,6 +16,7 @@ class LatexHelpers:
         path: str,
         caption: str = None,
         index: bool = True,
+        float_format: str = "{:0.1f}"
     ) -> None:
         makedirs(path, exist_ok=True)
 
@@ -32,7 +33,7 @@ class LatexHelpers:
                     caption=caption,
                     label=f"tbl:{name}",
                     position="H",
-                    float_format="{:0.1f}".format,
+                    float_format=float_format.format,
                 )
             )
 

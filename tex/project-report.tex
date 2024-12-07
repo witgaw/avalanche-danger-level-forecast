@@ -29,7 +29,7 @@
 
 
 \author{
-  Witold Gawlikowicz (06932552) \\
+  Witold Gawlikowicz \\
   \texttt{witold@stanford.edu}
 }
 
@@ -44,32 +44,14 @@
 % \begin{abstract}
 % \end{abstract}
 
-% TODOs:
-	% Go into details of what the snowpack data is
 
-	% Milestone
-	% The milestone will help you make sure you're on track, and should describe what you've accomplished so far, and very briefly say what else you plan to do. You should write it as if it's an “early draft" of what will turn into your final project. You can write it as if you're writing the first few pages of your final project report, so that you can re-use most of the milestone text in your final report. Please write the milestone (and final report) keeping in mind that the intended audience are the instructors and the TAs. Thus, for example, you should not spend two pages explaining what logistic regression is. Your milestone should include the full names of all your team members and state the full title of your project. Note: We will expect your final writeup to be on the same topic as your milestone.
-	% Contributions
-	% Please include a section that describes what each team member worked on and contributed to the project. This is to make sure team members are carrying a fair share of the work for projects. If you have any concerns working with one of your project teammates, please create a private Ed post.
-	% Grading
-	% The milestone is mostly intended to get feedback from TAs to make sure you’re making reasonable progress. As long as your milestone follows the instructions above and you seem to have tested any assumptions which might prevent your team from completing the project, you should do well on the milestone.
-	% Format
-	% Your milestone should be at most 3 pages, excluding references. Similar to the proposal, it should include
-	% Motivation: What problem are you tackling, and what's the setting you're considering?
-	% Method: What machine learning techniques have you tried and why?
-	% Preliminary experiments: Describe the experiments that you've run, the outcomes, and any error analysis that you've done. You should have tried at least one baseline.
-	% Next steps: Given your preliminary results, what are the next steps that you're considering?
-	
-	
-
-% \section*{Acknowledgements}
 
 \section{Introduction}
 
 	Every year around a 100 people loose their lives to avalanches \href{https://www.avalanches.org/fatalities/}{in Europe alone} despite the fact that avalanche danger level forecasts are widely available there. There are many mountainous regions around the world for which no such forecasts are published, therefore automating the process of avalanche forecast generation could have real impact on lives of many people around the world. \\
 
-	The main part of the avalanche danger level forecast for a given region is the overall avalanche danger level. It's expressed on a 5 point scale ranging from 1 (lowest) to 5 (highest).	\href{https://www.shastaavalanche.org/page/how-read-advisory}{Forecasts} for many regions often also contain: \href{https://avalanche.state.co.us/forecasts/tutorial/avalanche-problems}{the avalanche problems} (main characteristics of the snowpack which contribute to its instability and hence potential avalanche) and the aspect-elevation rose which shows more fine-grained avalanche danger levels broken down by slope's aspect and elevation. \\
-	The primary goal of this project is to use the overall avalanche danger level forecast for the region as the dependent variable, however time- and data-permitting we would also like to explore the possibility generating those more detailed elements of an avalanche forecast.	
+	The main part of the avalanche danger level forecast for a given region is the overall avalanche danger level. It's expressed on a 5 point scale ranging from 1 (lowest) to 5 (highest).	\href{https://www.shastaavalanche.org/page/how-read-advisory}{Forecasts} for many regions often also contain: \href{https://avalanche.state.co.us/forecasts/tutorial/avalanche-problems}{the avalanche problems} (main characteristics of the snowpack which contribute to its instability and hence potential avalanche), the aspect-elevation rose which shows more fine-grained avalanche danger levels broken down by slope's aspect and elevation and a descriptive part disussing conditions and how they might change during the day in more detail. \\
+	The primary goal of this project is to use the overall avalanche danger level forecast for the region as the dependent variable and see to what extent it can be modelled with weather data.
 	
 \section{Data}
 
@@ -83,143 +65,162 @@
 	The forecasted value is decided on by avalanche professionals working in a given area based on the current state of the snowpack and the weather forecast for the next day.
 	The observed value (nowcast) is updated on the day.
 	\newline
-	While both values are compiled using a standardised methodology, there is an inherent subjectivity in both of them, but especially so in the nowcast as it relies a lot on travel throughout the area and multifaceted, in-person assessment of the snow conditions. For that reason we will use the forecasted value as our dependent value as it should be more standardised, have a clearer relationship with the weather inputs, and thus be more feasible for the model to discover the underlying relationship between the variables.
+	While both values are compiled using a standardised methodology, there is an inherent subjectivity in both of them, but especially so in the nowcast as it relies a lot on travel throughout the area and multifaceted, in-person assessment of the snow conditions. For that reason we will use the forecasted value as our dependent variable as it should be more standardised, have a clearer relationship with the weather inputs, and thus it should be more feasible for the model to discover the underlying relationship between the variables.
 
-\subsubsection{Initial transformation}
-	We have dropped missing values of both potential independent variables and used various strategies for filling missing data (details can be found if Table \ref{tbl:sais_replacements_log}). Brining the number of observations down to \input{assets/snippets/sais_size_final.txt}\unskip.
-\subsubsection{Splits}
-	As seen in Table \ref{tbl:sais_area_breakdown} the "Torridon" region only has relevant observations present present from the 2013/2014 winter season (as opposed to the other ones for which relevant observations are present from 2007/2008 season onwards). 
-	Because of that the region has fewest observations and might have different characterstics due to changes in methodology and climate over time. For that reason we have decided to use it as a test set to see how well the models generalise into other regions (and to some extent different time frames).
-	While it would be nice to be able to test how well models generalise to other time frames for the data from the same regions as they were trained on we have decided not to withold any data for that purpose not to reduce the size of the remaining datasetset any further. This data will start appearing for the 2024/2025 winter season soon, so we will extend the dataset with that test set when available.
-	\newline
-	We have used 20\% of the remaining data as the development set stratifying on both the areas and avalanche hazard levels. The resulting split is presented in the table below:
-	\input{assets/tables/sais_hazard_breakdown_per_split.tex}
-	Breakdown of hazard levels per each area in Training and Development sets can be found in Tables \ref{tbl:sais_mapped_hazard_breakdown_per_area_train} and \ref{tbl:sais_mapped_hazard_breakdown_per_area_dev}
+\subsubsection{Data transformations}
+	Since the hazard level "5" doesn't feature in our dataset we consider only hazard levels 1-4. Level "5" is very rare for most avalanche centres, and in most avalanche scales the difference between levels "4" and "5" doens't relate to the hazard intensity, but potential for destruction of infrastrcture (clearly not the case in all avalanche regions as some of them are quite remote). It is common practice when modelling avalanche hazard levels to merge those two levels together. 
+	We have dropped missing values of both potential independent variables and used various strategies (details in \href{https://github.com/witgaw/avalanche-danger-level-forecast/blob/main/src/data-exploration-hazard-levels.ipynb}{\texttt{data-exploration-hazard-levels.ipynb}}) for filling missing data brining the number of observations down to \input{assets/snippets/sais_size_final.txt}\unskip.\\
+	\newline 
+	We set aside 20\% of the data as the test set stratifying on avalanche hazard levels. We have decided not to use a development set and rely on cross-validation instead.
+	% \input{assets/tables/sais_hazard_breakdown_per_split.tex}
 
-\subsection{\usfs}
-	The \usfs dataset contains \input{assets/snippets/usfs_size_final.txt}observations after cleansing. However, these do not contain any weather or snowprofile data, hence these will be considered in a later part of the project if suitable weather data is available.
-	Table \ref{tbl:usfs_hazard_breakdown_per_area} in the Appendix contains breakdown of danger hazard levels by areas (represented with codes) 
+\subsection{Weather data}
+While \href{https://meteostat.net}{open source data} data providers exists, to the best of our knowledge these only provide data from specific weather stations. Proprietary data providers will also be able to interpolate that data to a specific location using a weather model, hence we decided to use that kind of that for this project. Unfortunately, at the time of writing permission to open source this data has not been obtained hence it remains in a seprate private repository added to the main project repository as a submodule. The author is happy to help facilitate access to it for grading purposes if needed and for interested researchers.
 
-\section{Metrics}
+The weather data for the highest summit in each of the 6 forecast zones has been downloaded from \href{https://www.visualcrossing.com/}{Visual Crossing}.  All the standard atmospheric variables like temperature, humidity, precipitation, wind speed and direction have been downloaded. Additionally, selected \href{https://www.visualcrossing.com/resources/documentation/weather-api/agriculture-elements-in-the-timeline-weather-api/}{agricultural} and \href{https://www.visualcrossing.com/resources/documentation/weather-api/energy-elements-in-the-timeline-weather-api/}{energy} data points have been downloaded. Details can be found in \href{https://github.com/witgaw/avalanche-danger-level-forecast/blob/main/src/data-exploration-weather.ipynb}{\texttt{data-exploration-weather.ipynb}}.
+	Data has been downloaded for all the dates for which SAIS hazard levels were available. Data has been downloaded in both daily and hourly resolution. 
+	While the API allowed download of both observed and historically forecasted value we have opted only for observed values as historical forecasts were not available prior to 2020 for the selected locations. Since our data set spanned dates from 2007 to 2024 limiting our dataset to only the dates for which historical forecasts were available would significantly reduce its size. Mixing observed and forecasted variables in the same columns would potentially negatively impact models' performance. However, it should be noted that ideally we would like to use observed data for all the days prior to the date for which the forecast is being generated and a historical 1 day ahead forecast for the that date. Therefore it should be noted that the actual performance of the model might differ depending on the quality of the forecast.
 
-	To begin with we will consider accuracy, precision, recall and $F_1$ score as the primary metrics for evaluating the model. Precision, recall and $F_1$ score will be computed per-class, as well as micro- and macro-averaged
-	\newline
-	We have also included the mean squared errors computed on mapped classes (integers from 1 to 4), average error ($y^{true} - y^{predicted}$) and "highest error" which computes the maximum absolute error, but preserves the sign. The last two metrics are constructed to give basic understanding of model's under- or over-reporting of the hazard level.
+\subsubsection{Data transformations}\label{sec:weather_data_trans}
+	Since avalanches, and thus avalanche hazard forecasts, are impacted by weather not just the day before the warning is issued but over many days or even the entire season we have transformed the data so that our independent variables reflect that. For the day for which the hazard level is modelled as well as the day prior we use hourly data for all the variables considered. For all previous days we use daily data. We account for \input{assets/snippets/sais_avg_season_length.txt}days as that's the average season length in our dataset. All the entires prior to season's begining are set to 0. Thus the vectors are sparser the closer to the begining of the season the modelled hazard level is. After cleaning up the data to remove missing variables the dimensionality of the independent variable vector is \input{assets/snippets/weather_idependent_variable_dimension.txt}\unskip.
+
+\section{Model fitting}
+
+	In this section, we describe the process of fitting machine learning models to the collected data. We fit each model using the default parameters provided by the \texttt{scikit-learn} library and then carry out hyperparameter optimisation of selected paramters using 10-fold cross-validation repeated 3 times to reduce the noise in model performance estimate. We use a random parameter space search with 20 iterations. We use the macro-averaged $F_1$ score as the metric used for parameter tuning. Details can be found in \href{https://github.com/witgaw/avalanche-danger-level-forecast/blob/main/src/modelling.ipynb}{\texttt{modelling.ipynb}}.
+	For all models we use dependent variables described in Section \ref{sec:weather_data_trans}.
+	All of the models are used as classifiers outputting one of the 4 avalanche hazard levels considered.
+
+\subsection{Softmax regression}
+
+	Softmax regression, also known as multinomial logistic regression, is a generalization of logistic regression to multiple classes. It is a simple and interpretable model that serves as a good starting point.
+	We are have also run this model using the snow profiles dug on the day for which the forecast was made. While this is not how we envisage the model being run as we would like to develop a flexible methodology that could eventually be used to model avalanche hazards in remote areas, it serves as a useful comparison in performance of model using specialised data gathered by domain-experts vs generally available weather variables.
+
+	Parameters considered during the hyperparameter optimisation step considered: solver, tolerance for stopping criteria, type of regularisation term, regularisation strength, whether an intercept term should be fitted or not, and weights assigned to each of the classes.
+
+\subsection{Random forest}
+	Due to promissing results of \cite{nhess-22-2031-2022} using random forest for dry-snow conditions in Switzerland we have decided to see how this model will perform on our dataset. Random forest is an ensemble learning technique combining multiple decision trees and averaging their results to generate the output which helps to reduce the tendency of decision trees to overfit the data.
+
+	Parameters considered during the hyperparameter optimisation step considered: number of random trees, the function to measure quality of a split, the maximum number of features to consider when generating a split, maximum depth of a tree and weights assigned to each of the classes.
+
+\subsection{Multi-layer perceptron (MLP)}
+	While \texttt{scikit-learn} is not a dedicated deep-learning library it does contain an implementation of a multi-layer perceptron. Due to the high dimensionality of the data, highly non-linear relationship between weather data across the entire seasons and avalanche level, and since we are solving a classification problem a multi-layer neural network seemed like a promissing approach to try out for our problem.
+
+	Parameters considered during the hyperparameter optimisation step considered: solver type, the size and number of hidden layers, activation function, momentum for gradient descent update within the Adam optimiser, the strength of L2 regularisation term and the learning rate.
+
+\section{Evaluation}\label{sec:evaluation}
+
+To begin with we will consider accuracy, precision, recall and $F_1$ score as the primary metrics for evaluating the model. Precision, recall and $F_1$ score will be computed per-class, as well as macro-averaged.
+\newline
+We have also included the mean squared errors computed on mapped classes (integers from 1 to 4) and average error ($y^{true} - y^{predicted}$). The last two metric is constructed to give a basic understanding of model's under- or over-reporting of the hazard level.
 
 \subsection{Baseline fits}
 
-	To get a better feel for how the different metrics are behaving on this dataset we will compute two baselines: 
-	\begin{enumerate}
-		\item A constant model that always predicts the most common class in the training set.
-		\item "Observed" model returning the observed avalanche hazard level discussed in Section \ref{sec:data_sais}.
-	\end{enumerate}
-	The idea is that the first baseline will provide a lower bound on the performance of any model we might want to begin to consider and the second one will likely be the upper bound as it's compiled by the same experts who made the forecast, but with the additional benefit of being able to directly observe the actual changes in the snowpack.
+To get a better feel for how the different metrics are behaving on this dataset we will compute two baselines: 
+\begin{enumerate}
+	\item A constant model that always predicts the most common class in the training set.
+	\item "Observed" model returning the observed avalanche hazard level discussed in Section \ref{sec:data_sais}.
+\end{enumerate}
+The idea is that the first baseline will provide a lower bound on the performance of any model we might want to begin to consider and the second one will likely be the upper bound as it's compiled by the same experts who made the forecast, but with the additional benefit of being able to directly observe the actual changes in the snowpack.
 
-	Metrics for those baselines and all the models considered will be included in Section \ref{sec:evaluation}.
+Metrics for those baselines and all the models considered will be included in Section \ref{sec:evaluation}.
 
-\section{Model Fitting}
+	The evaluation metrics for each model computed on the test set are presented in Table \ref{tbl:sais_eval_test} below. 
 
-	In this section, we describe the process of fitting machine learning models to the collected data. We start with a simple softmax regression model as a point of reference for more complex models.
 
-\subsection{Softmax Regression}
-
-	Softmax regression, also known as multinomial logistic regression, is a generalization of logistic regression to multiple classes. It is a simple and interpretable model that serves as a good starting point.
-	We have run it with the default settings in the \texttt{scikit-learn} library, therefore there is potentially still some room to improve the fit. This will be explored in the later part of the project.
-
-\section{Evaluation}\label{sec:evaluation}
-	The evaluation metrics for each model computed on the test set are presented below. Please refer to the appendix for equivalent tables for the development and training (for quality of fit assesment purposes, not to make any statements about how the models generalise) sets.
 	\input{assets/tables/sais_eval_test.tex}
 
-\section{Next steps}
-	Please note that some of these are nice to haves, I very likely will not manage to go though all of them in the time available (though I am keen to continue working on this problem beyond this term):
-	\begin{itemize}
-		\item Expolre performance of more complex models on SAIS dataset. 
-		\item Apply approach from \cite{nhess-22-2031-2022} to available datasets.
-		\item Look into APIs for historical weather data.
-		\item If historical data is available revisit SAIS dataset and train it on: mixture of existing snowprofiles and weather data, weather data only, and \href{https://snowpack.slf.ch}{simulated snow profiles}.
-		\item If the above shows promise re-run it on US Forrest Service dataset.
-		\item See if it's possible to use data relating to observations of snowpack at different locations within each area to add more granularity to the model (still predict overall hazard level for a forecast area, but see if it can be locally raised or lowered depening on aspects, elevations, angles and altitudes).
-		\item Visualise predictions on a map.
-	\end{itemize}
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}[b]{0.49\textwidth}
+			\includegraphics[width=\textwidth]{sais_confusion_matrix_RF_____weather_48h_hourly_then_daily_data_across_season_test.png}
+			\caption{Default parameters.}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.49\textwidth}
+			\includegraphics[width=\textwidth]{sais_confusion_matrix_RF(T)__weather_48h_hourly_then_daily_data_across_season_test.png}
+			\caption{Optimised hyperparameters}
+
+		\end{subfigure}
+		\caption{Random forest on Test set.}
+		\label{fig:rf}
+	\end{figure}
+
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}[b]{0.49\textwidth}
+			\includegraphics[width=\textwidth]{sais_confusion_matrix_MLP____weather_48h_hourly_then_daily_data_across_season_test.png}
+			\caption{Default parameters.}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.49\textwidth}
+			\includegraphics[width=\textwidth]{sais_confusion_matrix_MLP(T)_weather_48h_hourly_then_daily_data_across_season_test.png}
+			\caption{Optimised hyperparameters}
+		\end{subfigure}
+		\label{fig:mlp}
+		\caption{Multi-layer perceptron on Test set.}
+	\end{figure}
+
+\section{Conclusion and future work}
+	As we can see in Figure \ref{fig:rf} the random forest classifier peforms quite well for labels 1-3, but fails badly as far as hazard level "4" is concenred where majority of the datapoints from the test set get incorrectly classified as hazard level "3". Hyperparameter tuning only slightly improves this problem and reduces performance for class "2".
+
+	The multi-layer perceptron classifier (Figure \ref{fig:mlp}) is the most promissing of the classifiers considered. The performance with default parameters for classes "2" and "4" is sub-par, however hyperparameter optimisation brings about significant improvements in that regard.
+	In fact it's not as dissimilar to results presented in Figure 4 in \cite{egusphere-2024-2374} as one might expect. The mentioned figure shows performance of a random forest classifier used for avalanche danger level prediction in Swiss alps. As the paper mentions, this model has in fact been used operationally for several seasons. It highlights similar issues to the ones observed in this project: while accurate prediction of hazard levels "1" and "3" is achievable, levels "2" and "4" are much more difficult to characterise accurately. \\
+
+	Future work on this project will focus on reproducing the results obtained for the SAIS dataset on the US dataset obtained as part of this project. Since the results obtained with MLP were the most promissing, another avenue worth exploring seems to be moving to a more Deep Learning oriented library like PyTorch or TensorFlow and purusing exploring the multilayer neural networks there with different topologies and layers, as well getting more compute resources employed (this project was done entirely on an M1 Mac).
+
+	As mentioned in the introduction, avalanche reports contain much more information than just the avalanche hazard level. Incorporating terrain features (\cite{egusphere-2023-2948}) to allow for generation of the aspect-elevation rose as well as better generalisation of the model to areas it hasn't been trained on will be one of our future goals. Lastly, we would like to explore the possibility of avalanching the type of avalanche problem (\cite{MORIN2020102910} \cite{REUTER2022103462}) from data.
+
+	\section*{Acknowledgements}
+	I would like to express my deepest gratitude to all the people and entities which helped me during my work on this project:\\
+			% \begin{itemize}
+			\textbf{Chris Lundy}, National Avalanche Specialist from USDA Forest Service National Avalanche Center, for providing me we access to the historical danger level forecasts from all the avalanche centres across US and allowing me to open-source the dataset, as well as for professionally and patiently answering my numerous questions. While I have not managed to explore this dataset as part of this project I am planning to work on it past the coursework part of the project. \\
+			\textbf{Mark Diggins}, Co-ordinator for Scottish Avalanche Information Service, for helping me swiftly and easily download the historical avalanche danger level for Scotland which formed the main focus of this project.\\
+			\textbf{Boxin Zhang} for project mentorship.\\
+			\href{https://www.visualcrossing.com/}{Visual Crossing} for granting me access to their proprietary historical weather data API with a generous calls quota free of charge for research purposes as well as providing me with timely and professional support.\\
+			\href{https://www.meteoblue.com/}{Meteoblue} for granting me access to their proprietary historical weather data API for 3 locations as well as a quota of general API calls free of charge.\\
+			\href{https://github.com/}{GitHub} for their free Student Developer Pack including Copilot which has been used for generating isolated code snippets used in this project, mostly around Pandas DataFrame manipulation, function documentation and skeleton PyTest code.
+			% \end{itemize}
 
 \newpage
-\begin{appendices}
-	\section{Dataset details}
-	This section contains further details of the datasets used for the project.
-	\subsection{\sais}
-	\input{assets/tables/sais_summary_initial.tex}
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\textwidth]{sais_observation_histogram.png}
-		\caption{Histogram of avalanche danger levels in the SAIS dataset.}
-		\label{fig:sais_observation_histogram}
-	\end{figure}
+% \begin{appendices}
+% 	\newpage
+% 	\section{Dataset details}
+% 	This section contains further details of the datasets used for the project.
 
-	\input{assets/tables/sais_area_breakdown.tex}
-	\input{assets/tables/sais_hazard_breakdown_per_area.tex}
-	\input{assets/tables/sais_mapped_hazard_breakdown_per_area.tex}
-	\input{assets/tables/sais_replacements_log.tex}
-	\input{assets/tables/sais_mapped_hazard_breakdown_per_area_train.tex}
-	\input{assets/tables/sais_mapped_hazard_breakdown_per_area_dev.tex}
+% 	% \input{assets/tables/sais_summary_initial.tex}
+% 	\begin{figure}[h]
+% 		\centering
+% 		\includegraphics[width=0.7\textwidth]{sais_observation_histogram.png}
+% 		\caption{Histogram of avalanche danger levels in the SAIS dataset.}
+% 		\label{fig:sais_observation_histogram}
+% 	\end{figure}
 
-	\subsection{\usfs}
+% 	\input{assets/tables/sais_area_breakdown.tex}
+% 	\input{assets/tables/sais_mapped_hazard_breakdown_per_area.tex}
+% 	% \input{assets/tables/sais_mapped_hazard_breakdown_per_area_train.tex}
+% 	% \input{assets/tables/sais_replacements_log.tex}
+% 	\newpage
+% 	\section{Evaluation}
+% 	\begin{figure}[h]
+% 		\centering
+% 			\includegraphics[width=\textwidth]{sais_confusion_matrix_const_None_test.png}
+% 		\caption{Confusion matrix for constant model on test set.}
+% 	\end{figure}
 
-	\input{assets/tables/usfs_hazard_breakdown_per_area.tex}
-	\newpage
-	\section{Evaluation}
-	\begin{figure}[h]
-		\centering
-		\begin{subfigure}[t]{0.49\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{sais_confusion_matrix_constant_test.png}
-			\caption{Test set}
-		\end{subfigure}
-		\hfil
-		\begin{subfigure}[t]{0.49\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{sais_confusion_matrix_constant_development.png}
-			\caption{Development set}
-		\end{subfigure}
-		\caption{Constant model}
-	\end{figure}
+% 	\begin{figure}[h]
+% 		\centering
+% 		\includegraphics[width=\textwidth]{sais_confusion_matrix_observed_None_test.png}
+% 		\caption{Confusion matrix for "observed" model on test set.}
+% 	\end{figure}
 
-	\begin{figure}[h]
-		\centering
-		\begin{subfigure}[t]{0.49\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{sais_confusion_matrix_observed_test.png}
-			\caption{Test set}
-		\end{subfigure}
-		\hfil
-		\begin{subfigure}[t]{0.49\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{sais_confusion_matrix_observed_development.png}
-			\caption{Development set}
-		\end{subfigure}
-		\caption{"Observed" model}
-	\end{figure}
+% 	\begin{figure}[h]
+% 		\centering
+% 		\includegraphics[width=\textwidth]{sais_confusion_matrix_softmax_snow_profiles_test.png}
+% 		\caption{Confusion matrix for Softmax model on days' snowprofiles on test set.}
+% 	\end{figure}
 
-	\begin{figure}[h]
-		\centering
-		\begin{subfigure}[t]{0.49\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{sais_confusion_matrix_softmax_regression_test.png}
-			\caption{Test set}
-		\end{subfigure}
-		\hfil
-		\begin{subfigure}[t]{0.49\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{sais_confusion_matrix_softmax_regression_development.png}
-			\caption{Development set}
-		\end{subfigure}
-		\caption{Softmax regression model}
-	\end{figure}
+% \end{appendices}
 
-
-	
-
-\end{appendices}
-	
 \newpage
 \bibliography{references}
 \bibliographystyle{plainnat}
