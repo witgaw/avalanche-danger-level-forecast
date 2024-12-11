@@ -25,7 +25,7 @@
 \newcommand{\sais}{Scottish Avalanche Information Service}
 \newcommand{\usfs}{US Forest Service National Avalanche Center}
 
-\title{ML-based avalanche danger level forecasting. \\ Category: General Machine Learning}
+\title{ 	}
 
 
 \author{
@@ -50,7 +50,7 @@
 
 	Every year around a 100 people loose their lives to avalanches \href{https://www.avalanches.org/fatalities/}{in Europe alone} despite the fact that avalanche danger level forecasts are widely available there. There are many mountainous regions around the world for which no such forecasts are published, therefore automating the process of avalanche forecast generation could have real impact on lives of many people around the world. \\
 
-	The main part of the avalanche danger level forecast for a given region is the overall avalanche danger level. It's expressed on a 5 point scale ranging from 1 (lowest) to 5 (highest).	\href{https://www.shastaavalanche.org/page/how-read-advisory}{Forecasts} for many regions often also contain: \href{https://avalanche.state.co.us/forecasts/tutorial/avalanche-problems}{the avalanche problems} (main characteristics of the snowpack which contribute to its instability and hence potential avalanche), the aspect-elevation rose which shows more fine-grained avalanche danger levels broken down by slope's aspect and elevation and a descriptive part disussing conditions and how they might change during the day in more detail. \\
+	The main part of the avalanche danger level forecast for a given region is the overall avalanche danger level. It's expressed on a 5 point scale ranging from 1 (lowest) to 5 (highest).	\href{https://www.shastaavalanche.org/page/how-read-advisory}{Forecasts} for many regions often also contain: \href{https://avalanche.state.co.us/forecasts/tutorial/avalanche-problems}{the avalanche problems} (main characteristics of the snowpack which contribute to its instability and hence potential avalanche), the aspect-elevation rose which shows more fine-grained avalanche danger levels broken down by slope's aspect and elevation and a descriptive part discussing conditions and how they might change during the day in more detail. \\
 	The primary goal of this project is to use the overall avalanche danger level forecast for the region as the dependent variable and see to what extent it can be modelled with weather data.
 	
 \section{Data}
@@ -163,7 +163,7 @@ Metrics for those baselines and all the models considered will be included in Se
 \section{Conclusion and future work}
 	As we can see in Figure \ref{fig:rf} the random forest classifier peforms quite well for labels 1-3, but fails badly as far as hazard level "4" is concenred, where majority of the datapoints from the test set get incorrectly classified as hazard level "3". Hyperparameter tuning only slightly improves this problem and it actually reduces performance for class "2".
 
-	The multi-layer perceptron classifier (Figure \ref{fig:mlp}) is the most promissing of the classifiers considered. The performance with default parameters for classes "2" and "4" is sub-par, however hyperparameter optimisation brings about significant improvements in that regard.
+	The multi-layer perceptron classifier (Figure \ref{fig:mlp}) is the most promising of the classifiers considered. The performance with default parameters for classes "2" and "4" is sub-par, however hyperparameter optimisation brings about significant improvements in that regard.
 	In fact it's not as dissimilar to results presented in Figure 4 in \cite{egusphere-2024-2374} as one might expect. The mentioned figure shows performance of a random forest classifier used for avalanche danger level prediction in Swiss alps. As the paper mentions, this model has in fact been used operationally for several seasons now. It highlights similar issues to the ones observed in this project: while accurate prediction of hazard levels "1" and "3" is achievable, levels "2" and "4" are much more difficult to characterise accurately. \\
 
 	Future work on this project will focus on reproducing the results obtained for the SAIS dataset on the US dataset obtained as part of this project. Since the results obtained with MLP were the most promissing, another avenue worth exploring seems to be moving to a more Deep learning oriented library like PyTorch or TensorFlow and exploring multilayer neural networks with more complex topologies, as well getting more compute resources employed (this project was done entirely on an M1 Mac).
